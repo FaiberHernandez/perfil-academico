@@ -1,0 +1,114 @@
+---
+import SectionHeader from "../components/SectionHeader.astro";
+import { Image } from "astro:assets";
+import { members } from "../data/members";
+import { site } from "../data/site";
+---
+
+<section id="identidades" class="scroll-mt-16 bg-ivory" aria-label="Identidades">
+  <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-32">
+    <SectionHeader
+      id="identidades"
+      number="02"
+      title="Identidades"
+      intro="Cuatro estudiantes en formación como futuras docentes de la primera infancia. Cada perfil, con su propia voz."
+    />
+
+    <div class="space-y-20 md:space-y-28">
+      {
+        members.map((member, index) => (
+          <article
+            id={`perfil-${member.id}`}
+            class="reveal grid gap-8 md:grid-cols-12 md:gap-10"
+          >
+            {/* Photo */}
+            <div
+              class={`frame-photo rounded-sm md:col-span-5 ${
+                index % 2 === 0 ? "md:order-1" : "md:order-2 md:col-start-8"
+              } aspect-4/5 max-h-[560px]`}
+            >
+              <Image
+                src={member.photo}
+                alt={member.photoAlt}
+                width={768}
+                loading="lazy"
+                decoding="async"
+                densities={[1, 2]}
+                class="h-full w-full object-cover"
+              />
+            </div>
+
+            {/* Text */}
+            <div
+              class={`flex flex-col justify-center md:col-span-6 ${
+                index % 2 === 0 ? "md:order-2 md:col-start-7" : "md:order-1 md:col-start-1"
+              }`}
+            >
+              <div class="flex items-baseline gap-4">
+                <span class="section-number text-3xl text-terra md:text-4xl" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 class="font-serif text-2xl leading-tight font-medium tracking-tight text-balance md:text-3xl">
+                    {member.name}
+                  </h3>
+                  <p class="label mt-1.5 text-carbon/60">
+                    {member.program} · {site.institution.name}
+                  </p>
+                </div>
+              </div>
+
+              {
+                member.tags && (
+                  <ul class="mt-5 flex flex-wrap gap-2" aria-label="Rasgos personales">
+                    {member.tags.map((tag) => (
+                      <li class="rounded-full border border-line bg-surface px-3 py-1 font-serif text-sm italic text-blue-deep">
+                        {tag}
+                      </li>
+                    ))}
+                  </ul>
+                )
+              }
+
+              {
+                (member.age || member.city || member.profession) && (
+                  <dl class="mt-5 grid max-w-md grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm">
+                    {member.age && (
+                      <>
+                        <dt class="label text-carbon/60">Edad</dt>
+                        <dd class="text-ink-soft">{member.age}</dd>
+                      </>
+                    )}
+                    {member.profession && (
+                      <>
+                        <dt class="label text-carbon/60">Profesión</dt>
+                        <dd class="text-ink-soft">{member.profession}</dd>
+                      </>
+                    )}
+                    {member.city && (
+                      <>
+                        <dt class="label text-carbon/60">Ciudad</dt>
+                        <dd class="text-ink-soft">{member.city}</dd>
+                      </>
+                    )}
+                  </dl>
+                )
+              }
+
+              <div class="mt-6 space-y-5 border-l-2 border-terra/60 pl-5">
+                {
+                  member.sections.map((section) => (
+                    <div>
+                      <p class="label text-blue-deep">{section.title}</p>
+                      <p class="mt-1.5 leading-relaxed text-ink-soft">{section.body}</p>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,87 @@
+---
+import SectionHeader from "../components/SectionHeader.astro";
+import { finalReflection } from "../data/learning";
+import { members } from "../data/members";
+import { site } from "../data/site";
+---
+
+<section id="cierre" class="scroll-mt-16 bg-blue-ink text-ivory" aria-label="Cierre">
+  <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-32">
+    <div class="reveal mb-14 flex items-baseline gap-5 md:mb-20">
+      <span class="section-number text-5xl text-ivory/25 md:text-7xl" aria-hidden="true">05</span>
+      <h2
+        class="font-serif text-[clamp(2rem,5vw,3.5rem)] leading-none font-medium tracking-tight"
+      >
+        Cierre
+      </h2>
+    </div>
+    <div class="mb-14 border-t border-ivory/20 md:mb-20"></div>
+
+    <div class="grid gap-14 md:grid-cols-12">
+      <div class="reveal md:col-span-5">
+        <p class="kicker">Reflexión final del grupo</p>
+        <figure class="mt-5">
+          <blockquote
+            class="border-l-4 border-terra pl-6 font-serif text-xl leading-relaxed text-ivory/90 italic md:text-2xl md:leading-relaxed"
+          >
+            {finalReflection.text}
+          </blockquote>
+          <figcaption class="label mt-4 text-ivory/50">{finalReflection.source}</figcaption>
+        </figure>
+      </div>
+
+      <div class="reveal md:col-span-6 md:col-start-7">
+        <p class="kicker">Créditos académicos</p>
+        <dl class="mt-5 divide-y divide-ivory/10 border-y border-ivory/20">
+          <div class="flex justify-between gap-6 py-3.5">
+            <dt class="label text-ivory/50 shrink-0">Asignatura</dt>
+            <dd class="text-right font-serif">{site.course}</dd>
+          </div>
+          <div class="flex justify-between gap-6 py-3.5">
+            <dt class="label text-ivory/50 shrink-0">Docente</dt>
+            <dd class="text-right font-serif">{site.teacher}</dd>
+          </div>
+          <div class="flex justify-between gap-6 py-3.5">
+            <dt class="label text-ivory/50 shrink-0">Institución</dt>
+            <dd class="text-right font-serif">
+              {site.institution.name}<br />
+              <span class="text-sm text-ivory/60">{site.institution.faculty}</span>
+            </dd>
+          </div>
+          <div class="flex justify-between gap-6 py-3.5">
+            <dt class="label text-ivory/50 shrink-0">Programa</dt>
+            <dd class="text-right font-serif">
+              {site.institution.program}<br />
+              <span class="text-sm text-ivory/60">{site.institution.group}</span>
+            </dd>
+          </div>
+          <div class="flex justify-between gap-6 py-3.5">
+            <dt class="label text-ivory/50 shrink-0">Fecha</dt>
+            <dd class="text-right font-serif">{site.date}</dd>
+          </div>
+        </dl>
+
+        <p class="label mt-8 text-ivory/50">Integrantes</p>
+        <ol class="mt-3 space-y-1.5">
+          {
+            members.map((member, index) => (
+              <li class="flex items-baseline gap-3">
+                <span class="section-number text-sm text-terra" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span class="font-serif text-ivory/85">{member.name}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+
+    <div class="mt-20 flex flex-wrap items-baseline justify-between gap-4 border-t border-ivory/15 pt-6">
+      <p class="font-serif text-lg italic text-ivory/80">
+        {site.title}<span class="text-terra" aria-hidden="true"> ·</span>
+      </p>
+      <p class="label text-ivory/40">{site.institution.name} · {site.date}</p>
+    </div>
+  </div>
+</section>

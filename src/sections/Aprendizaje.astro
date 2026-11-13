@@ -1,0 +1,132 @@
+---
+import { Image } from "astro:assets";
+import SectionHeader from "../components/SectionHeader.astro";
+import { organizer } from "../data/learning";
+---
+
+<section id="aprendizaje" class="scroll-mt-16 bg-ivory" aria-label="Nuestro aprendizaje">
+  <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-32">
+    <SectionHeader
+      id="aprendizaje"
+      number="04"
+      title="Nuestro aprendizaje"
+      intro="Aprendizajes, dificultades, retos y autoevaluación, en el organizador gráfico original del grupo."
+    />
+
+    <!-- Original organizer -->
+    <figure class="reveal">
+      <div class="border-2 border-carbon/15 bg-white/60 p-3 md:p-6">
+        <div class="frame-photo rounded-sm">
+          <Image
+            src={organizer.image}
+            alt={organizer.alt}
+            widths={[768, 1440, 2200]}
+            sizes="(min-width: 1152px) 1104px, calc(100vw - 2.5rem)"
+            loading="lazy"
+            decoding="async"
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+      <figcaption
+        class="mt-4 flex flex-wrap items-center justify-between gap-3"
+      >
+        <p class="label text-carbon/60">Organizador original · Mapa mental — Producción textual</p>
+        <button
+          id="zoom-open"
+          class="inline-flex items-center gap-2 rounded-full border border-carbon/30 px-4 py-2 label text-carbon transition-colors hover:border-terra hover:bg-terra hover:text-ivory"
+          aria-haspopup="dialog"
+        >
+          <svg
+            class="size-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path>
+          </svg>
+          Ampliar para leer
+        </button>
+      </figcaption>
+    </figure>
+
+    <!-- Lightbox -->
+    <dialog
+      id="zoom-dialog"
+      class="m-auto max-h-[92vh] max-w-[94vw] rounded-sm border border-line bg-transparent p-0 backdrop:bg-carbon/90 backdrop:backdrop-blur-sm"
+      aria-label="Organizador gráfico ampliado"
+    >
+      <button
+        id="zoom-close"
+        class="absolute top-3 right-3 flex size-10 items-center justify-center rounded-full bg-ivory text-carbon shadow-md"
+        aria-label="Cerrar vista ampliada"
+      >
+        <svg
+          class="size-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+      <Image
+        src={organizer.image}
+        alt={organizer.alt}
+        widths={[1440, 2574]}
+        sizes="94vw"
+        class="max-h-[92vh] max-w-[94vw] rounded-sm object-contain"
+        loading="lazy"
+        decoding="async"
+      />
+    </dialog>
+
+    <!-- Structured companion -->
+    <div class="mt-20 md:mt-28">
+      <div class="reveal border-t-2 border-carbon">
+        <p class="label border-b border-carbon/20 py-3">
+          Los siete nodos, transcritos del organizador
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-x-10 gap-y-12 md:grid-cols-2">
+        {
+          organizer.nodes.map((node, index) => (
+            <div class="reveal flex gap-5 border-t border-line pt-6">
+              <span class="section-number text-3xl text-line" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <h3 class="font-serif text-xl font-medium tracking-tight text-blue-deep md:text-2xl">
+                  {node.title}
+                </h3>
+                <p class="mt-2 leading-relaxed text-ink-soft">{node.body}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const dialog = document.getElementById("zoom-dialog") as HTMLDialogElement | null;
+  const openBtn = document.getElementById("zoom-open");
+  const closeBtn = document.getElementById("zoom-close");
+
+  openBtn?.addEventListener("click", () => dialog?.showModal());
+  closeBtn?.addEventListener("click", () => dialog?.close());
+  // Click on the backdrop closes the dialog
+  dialog?.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+</script>

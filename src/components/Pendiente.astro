@@ -1,0 +1,17 @@
+---
+interface Props {
+  what: string;
+  dark?: boolean;
+}
+const { what, dark = false } = Astro.props;
+---
+
+<div
+  class={`rounded-sm border-2 border-dashed px-5 py-4 ${
+    dark ? "border-terra bg-terra/15" : "border-terra/50 bg-terra-soft/20"
+  }`}
+  role="note"
+>
+  <p class={`label ${dark ? "text-terra-soft" : "text-terra"}`}>Contenido pendiente</p>
+  <p class={`mt-1 text-sm ${dark ? "text-ivory/80" : "text-ink-soft"}`}>{what}</p>
+</div>

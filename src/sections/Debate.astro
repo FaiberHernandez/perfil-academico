@@ -1,0 +1,123 @@
+---
+import SectionHeader from "../components/SectionHeader.astro";
+import { essay } from "../data/essay";
+import { references } from "../data/references";
+import { site } from "../data/site";
+---
+
+<section id="debate" class="scroll-mt-16 bg-ivory-deep" aria-label="El debate">
+  <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-32">
+    <SectionHeader
+      id="debate"
+      number="03"
+      title="El debate"
+      intro="Un ensayo argumentativo del grupo, presentado como artículo editorial."
+    />
+
+    <!-- Central question -->
+    <div class="reveal border-y-2 border-carbon py-10 md:py-14">
+      <p class="kicker">La pregunta central</p>
+      <blockquote
+        class="mt-5 max-w-4xl font-serif text-[clamp(1.5rem,3.6vw,2.5rem)] leading-[1.25] font-medium text-balance"
+      >
+        {essay.question}
+      </blockquote>
+    </div>
+
+    <!-- Group position -->
+    <div class="reveal mt-10 grid gap-6 md:grid-cols-12">
+      <p class="label text-terra md:col-span-3">La postura del grupo</p>
+      <blockquote
+        class="md:col-span-9 md:col-start-4 border-l-4 border-blue-deep pl-6 font-serif text-lg leading-relaxed text-blue-ink md:text-2xl md:leading-relaxed"
+      >
+        {essay.thesis}
+      </blockquote>
+    </div>
+
+    <!-- Article masthead -->
+    <article class="mt-20 md:mt-28" aria-label="Ensayo argumentativo">
+      <div class="reveal mx-auto max-w-3xl border-t-2 border-carbon pt-10 text-center">
+        <p class="label text-carbon/60">Ensayo argumentativo</p>
+        <h3
+          class="mt-4 font-serif text-[clamp(1.6rem,4vw,2.6rem)] leading-[1.15] font-medium tracking-tight text-balance"
+        >
+          {essay.title}
+        </h3>
+        <p class="mt-6 text-sm leading-relaxed text-ink-soft">
+          {essay.authors.join(" · ")}
+        </p>
+        <p class="mt-2 text-xs leading-relaxed text-carbon/60">
+          {essay.affiliation}<br />
+          {essay.course} · Docente: {essay.teacher} · {essay.date}
+        </p>
+      </div>
+
+      <!-- Essay body -->
+      <div class="mx-auto mt-14 max-w-3xl">
+        {
+          essay.sections.map((section) => (
+            <section class="reveal mt-16 first:mt-0" id={`ensayo-${section.id}`}>
+              {section.heading && (
+                <div class="mb-6 flex items-baseline gap-4">
+                  {section.kicker && <p class="kicker shrink-0">{section.kicker}</p>}
+                  <h4 class="font-serif text-2xl leading-tight font-medium tracking-tight text-balance md:text-3xl">
+                    {section.heading}
+                  </h4>
+                </div>
+              )}
+              {section.kicker && !section.heading && <p class="kicker mb-6">{section.kicker}</p>}
+
+              <div class="prose-editorial">
+                {section.blocks.map((block, i) =>
+                  block.type === "p" ? (
+                    <p class={i === 0 && !section.heading ? "lead-paragraph" : undefined}>
+                      {block.text}
+                    </p>
+                  ) : (
+                    <blockquote class="my-10 border-y border-terra/40 py-7 text-center">
+                      <span class="font-serif text-4xl text-terra" aria-hidden="true">“</span>
+                      <p class="mx-auto max-w-2xl font-serif text-xl leading-snug font-medium text-blue-deep italic md:text-2xl md:leading-snug">
+                        {block.text}
+                      </p>
+                    </blockquote>
+                  ),
+                )}
+              </div>
+            </section>
+          ))
+        }
+      </div>
+
+      <!-- References -->
+      <div class="reveal mx-auto mt-24 max-w-3xl border-t-2 border-carbon pt-10">
+        <p class="label">Referencias bibliográficas</p>
+        <p class="mt-1 font-serif text-ink-soft italic">Normas APA, 7.ª edición</p>
+        <ol class="mt-8 space-y-5">
+          {
+            references.map((ref) => (
+              <li class="flex gap-4">
+                <span class="section-number mt-1 text-sm text-line" aria-hidden="true">§</span>
+                <p class="text-sm leading-relaxed text-ink-soft md:text-base md:leading-relaxed [text-indent:-2rem] pl-[2rem]">
+                  {ref.text}
+                  {ref.doi && (
+                    <>
+                      {" "}
+                      <a
+                        href={ref.doi}
+                        class="text-blue-deep underline decoration-blue-deep/30 underline-offset-2 hover:decoration-terra hover:text-terra break-all"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {ref.doi}
+                      </a>
+                    </>
+                  )}
+                </p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </article>
+  </div>
+</section>
